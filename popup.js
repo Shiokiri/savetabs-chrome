@@ -2,7 +2,8 @@ document.getElementById("getButton").addEventListener("click", async () => {
   const queryOptions = { lastFocusedWindow: true };
   const tabs = await chrome.tabs.query(queryOptions);
 
-  const extensionsFolderTitle = "Timeline";
+  const extensionsFolderTitle =
+    document.getElementById("folderNameInput").value;
   const data = new Date().toISOString().slice(0, 10);
 
   const tree = await chrome.bookmarks.getTree();
@@ -38,11 +39,6 @@ document.getElementById("getButton").addEventListener("click", async () => {
       url: tab.url,
     });
   }
-  //   await chrome.tabs.create({ active: true });
-  //   await chrome.tabs.remove(tabs.map((t) => t.id));
-
-  chrome.tabs.create({ active: false }, function () {
-    console.log("tab created");
-    chrome.tabs.remove(tabs.map((t) => t.id));
-  });
+  chrome.tabs.create({ active: true });
+  await chrome.tabs.remove(tabs.map((t) => t.id));
 });
